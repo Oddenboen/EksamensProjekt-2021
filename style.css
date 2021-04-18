@@ -2,9 +2,21 @@ body {
     background-color: #3c3c3c;
 }
 
-#list {
-    list-style: ;
+.tekstboks {
+    position: relative;
+    text-align: center;
 }
+
+.tekst {
+    position: absolute;
+    bottom: 50%;
+    left: 50%;
+}
+
+/*#list {
+    list-style: ;
+}*/
 #Dansk {
-    
+    width: 10%;
+    height: 50%;
 }
