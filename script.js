@@ -168,7 +168,7 @@ $(function(){
 
 
 
-let canvasH = 900;
+let canvasH = 400;
 let canvasW = 1850;
 
 let backgroundC = 157;
