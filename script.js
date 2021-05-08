@@ -15,7 +15,7 @@ var balanceData
 
 var updateBalance = function(newBalance, uid) {
    balances[attrExist(balances, 'uid', uid)].balance = Number(newBalance)
-   updateDb(JSON.stringify(balances), 'balances')
+   updateDb(JSON.stringify(balances), 'balances')  //stringify gør array til string og gør at computeren senere kan convertere det tilbage til array. Dette gøres da server ikke kan gemme læse JS, men godt kan læse string. Parse bruges senere til at lave string tilbage til array.
 }
 
 var setCookie = function(name, value, days) {
