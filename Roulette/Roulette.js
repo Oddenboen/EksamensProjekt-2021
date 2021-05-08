@@ -1,4 +1,4 @@
-//var coins = currentUserData.balance;
+//var coins = balanceData.balance;
 
 var betted = 0;
 var betNumber;
@@ -12,17 +12,17 @@ function bet(){
     if(betted > 0){
         console.log("Bet allerede lavet")
     }
-    else if (betMoney > currentUserData.balance){
+    else if (betMoney > balanceData.balance){
         console.log("Du har ikke nok penge til dette sats")
     }
-    else if (betMoney <= currentUserData.balance) {
+    else if (betMoney <= balanceData.balance) {
         betMoney = betMoneyInput;
 
         colorLock = betColor;
         numberLock = betNumber;
 
         betted = betMoney;
-        currentUserData.balance -= betted;
+        balanceData.balance -= betted;
 
         stop();
     }
@@ -32,18 +32,24 @@ function bet(){
 function result(betted){
     if (numberLock === vindertal){
         betted *= 35;
-        currentUserData.balance += betted;
+        balanceData.balance += betted;
+
+        updateBalance(balanceData.balance, currentUserData.id)
     } else if (colorLock === vinderfarve){
         betted *= 2;
-        currentUserData.balance += betted;
-    } 
+        balanceData.balance += betted;
+
+        updateBalance(balanceData.balance, currentUserData.id)
+    } else {
+        updateBalance(balanceData.balance, currentUserData.id)
+    }
 
 
 
     vinderfarve = null;
     vindertal = null;
 
-    console.log("Din saldo er nu:" + " " + currentUserData.balance);
+    console.log("Din saldo er nu:" + " " + balanceData.balance);
 }
 
 function add5(){

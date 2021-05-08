@@ -1,13 +1,22 @@
-var updateDb = function(usersArray) {
-    localStorage.setItem('users', usersArray)
+var updateDb = function(dataArray, ref) {
+    localStorage.setItem(ref, dataArray)
 }
 
-var getUsers = function() {
-    return JSON.parse(localStorage.getItem('users'))
+var getData = function(ref) {
+    return JSON.parse(localStorage.getItem(ref))
 }
 
 var users = []
+var balances = []
+
 var currentUserData
+var balanceData
+
+
+var updateBalance = function(newBalance, uid) {
+   balances[attrExist(balances, 'uid', uid)].balance = Number(newBalance)
+   updateDb(JSON.stringify(balances), 'balances')
+}
 
 var setCookie = function(name, value, days) {
     var d = new Date;
@@ -23,8 +32,6 @@ var getCookie = function(name) {
 var deleteCookie = function(name) { 
     setCookie(name, '', -1); 
 }
-
-
 
 function attrExist(array, attr, value) {
     for(var i = 0; i < array.length; i += 1) {
@@ -68,9 +75,15 @@ var isUserLoggedIn = function() {
 
     if(loggedIn) {
         currentUserData = getLoggedInInfo()
+        balanceData = getBalanceData()
+
+
+        console.log(balanceData)
+        console.log(balances)
+
 
         if(currentUserData) {
-            return 'Du er logget ind ' + currentUserData.username + ' Og du har en kontosaldo på: ' + currentUserData.balance
+            return 'Du er logget ind ' + currentUserData.username + ' Og du har: ' + balanceData.balance
         }
     }else {
         return 'Du er ikke logget ind'
@@ -83,7 +96,11 @@ var getLoggedInInfo = function() {
     return user
 }
 
+var getBalanceData = function() {
+    let balance = balances[attrExist(balances, 'uid', Number(getCookie('rotterikscasino_login')))]
 
+    return balance
+}
 
 
 
@@ -98,8 +115,11 @@ var getLoggedInInfo = function() {
 
 $(function(){
     //gets user data from fictive DB
-    let usersData = getUsers()
+    let usersData = getData('users')
     users = (usersData ? usersData : [])
+
+    let balanceData = getData('balances')
+    balances = (balanceData ? balanceData : [])
 
     console.log(users)
 
@@ -132,15 +152,22 @@ $(function(){
     // User createion function, takes in the given user data (Username, Password, Balance and returns a user object)
     var createUser = function(username, password, balance) {
         let userObj = {}
+        let balanceObj = {}
+        let id = uid()
 
-        userObj.id = uid()
+        userObj.id = id
         userObj.username = username
         userObj.password = password
-        userObj.balance = balance
+
+        balanceObj.uid = id
+        balanceObj.balance = balance
         
         users.push(userObj)
+        balances.push(balanceObj)
 
-        updateDb(JSON.stringify(users))
+        updateDb(JSON.stringify(users), 'users')
+        updateDb(JSON.stringify(balances), 'balances')
+
 
         return true
     }
@@ -454,7 +481,7 @@ function draw() {
     rect(canvasW-150, firkant0.y-5,150,60)
 
     textAlign(LEFT, LEFT)
-    text("Saldo: " + currentUserData.balance + " kr", 30, 100)
+    text("Saldo: " + balanceData.balance + " kr", 30, 100)
     text("Dit sats: " + betMoneyInput + " kr", 30, 50)
 }
 
