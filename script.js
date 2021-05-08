@@ -456,15 +456,6 @@ function draw() {
         countdown2 = 5*60;
     }
 
-
-
-
-   
-
-
-
-    
-
     stroke(0);
     background(backgroundC);
     fill(255,0,0)
