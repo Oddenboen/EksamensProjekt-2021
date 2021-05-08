@@ -1,0 +1,53 @@
+.container{
+    height: 300px;
+    position: relative;
+    border: 3px solid green;
+
+}
+
+.forste{
+    margin: 0;
+    position: absolute;
+    top: 35%;
+    left: 7.5%;
+    transform: translateY(-50%)
+}
+
+.anden{
+    margin: 0;
+    position: absolute;
+    top: 20%;
+    left: 10%;
+    transform: translateY(-50%)
+}
+
+.tredje{
+    margin: 0;
+    position: absolute;
+    top: 35%;
+    left: 10%;
+    transform: translateY(-50%)
+}
+
+.fjerde{
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 10%;
+    transform: translateY(-50%)
+}
+
+.femte{
+    margin: 0;
+    position: absolute;
+    top: 65%;
+    left: 22.75%;
+    transform: translateY(-50%)
+}
+.sjete{
+    margin: 0;
+    position: absolute;
+    top: 80%;
+    left: 10%;
+    transform: translateY(-50%)
+}
