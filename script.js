@@ -428,6 +428,7 @@ function draw() {
         cooldown = true;
         speed = 10;
         betted = 0;
+        countdown2 = 5*60;
     }
 
 
