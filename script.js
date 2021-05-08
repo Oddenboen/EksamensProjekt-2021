@@ -200,8 +200,6 @@ let canvasW = 1850;
 
 let backgroundC = 157;
 
-let rectX = 50;
-let rectY = 50;
 let hojde = 200;
 let speed = 10;
 let sideL = 50;
