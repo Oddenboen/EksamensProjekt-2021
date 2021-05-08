@@ -427,6 +427,7 @@ function draw() {
         pause = false;
         cooldown = true;
         speed = 10;
+        betted = 0;
     }
 
 
