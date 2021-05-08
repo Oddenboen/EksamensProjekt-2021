@@ -416,17 +416,14 @@ function draw() {
     background(backgroundC);
     fill(255,0,0)
     
-    rect(10,10,200,100)
-    text('stop',100,50)
-    fill(0);
     triangle((canvasW/2)-30, 75, canvasW/2, 200, (canvasW/2)+30, 75);
     hardcode();
     
 
     noStroke();
     fill(255);
-    //rect(0,firkant0.y-5,150,60)
-    //rect(canvasW-150, firkant0.y-5,150,60)
+    rect(0,firkant0.y-5,150,60)
+    rect(canvasW-150, firkant0.y-5,150,60)
 }
 
 
