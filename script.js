@@ -270,34 +270,7 @@ var firkant35 = new firkant(firkant12.x + sideL, hojde, sideL, speed, 35, 0, 0, 
 var firkant3 = new firkant(firkant35.x + sideL, hojde, sideL, speed, 3, 255, 0, 0);
 var firkant26 = new firkant(firkant3.x + sideL, hojde, sideL, speed, 26, 0, 0, 0);
 
-
-
-function stands(){
-    speed -= 1;
-}
-
-function stop(){
-        cooldown = false;
-        timeleft = Math.round(Math.random() * (10 - 5)) + 5;
-        pause = true;
-    }
-
-function draw() {
-    if (cooldown === false) {
-        timeleft -= 1/60;
-    }
-    if (timeleft <= 0){
-        cooldown = true;
-    }
-
-
-    if (pause === true && cooldown === true && speed > 0){
-        stands();
-    } else if (speed < 0){
-        speed = 0;
-        
-    }
-
+function sejrTal(){
     if (firkant0.x <= canvasW/2 && firkant0.x + sideL >= canvasW/2){
         vindertal = 0;
     } else if (firkant32.x <= canvasW/2 && firkant32.x + sideL >= canvasW/2){
@@ -409,6 +382,59 @@ function draw() {
         vindertal = 26;
         vinderfarve = 'black';
     } 
+}
+
+var hold = false;
+var countdown2 = 5*60;
+
+function stands(){
+    speed -= 1;
+}
+
+function stop(){
+        cooldown = false;
+        timeleft = Math.round(Math.random() * (10 - 5)) + 5;
+        pause = true;
+    }
+
+function draw() {
+    if (cooldown === false) {
+        timeleft -= 1/60;
+    }
+    if (timeleft <= 0){
+        cooldown = true;
+    }
+
+
+    if (pause === true && cooldown === true && speed > 0){
+        stands();
+        console.log("stands")
+        if(speed === 0){
+            hold = true
+        }
+    }
+    if (hold === true){
+        sejrTal(); 
+        result(betted);
+        hold = false;
+    } 
+
+    if (speed === 0){
+        countdown2 -= 1;
+    }
+
+    if (countdown2 === 0){
+        pause = false;
+        cooldown = true;
+        speed = 10;
+    }
+
+
+
+
+   
+
+
 
     
 
@@ -424,6 +450,12 @@ function draw() {
     fill(255);
     rect(0,firkant0.y-5,150,60)
     rect(canvasW-150, firkant0.y-5,150,60)
+
+    textAlign(LEFT, LEFT)
+    text("Saldo: " + currentUserData.balance + " kr", 30, 100)
+    text("Dit sats: " + betMoneyInput + " kr", 30, 50)
 }
+
+
 
 

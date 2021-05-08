@@ -2,27 +2,48 @@
 
 var betted = 0;
 var betNumber;
-var betNumberInput;
 var betMoney;
-var betMoneyInput;
-var betColor;
-var betColorInput;
+var betMoneyInput = 0;
+var betColor = "";
+var colorLock;
+var numberLock = 0;
 
 function bet(){
     if(betted > 0){
         console.log("Bet allerede lavet")
     }
-    else if(betMoney > currentUserData.balance){
+    else if (betMoney > currentUserData.balance){
         console.log("Du har ikke nok penge til dette sats")
     }
     else if (betMoney <= currentUserData.balance) {
         betMoney = betMoneyInput;
-        betNumber = betNumberInput;
-        betColor = betColorInput;
+
+        colorLock = betColor;
+        numberLock = betNumber;
 
         betted = betMoney;
         currentUserData.balance -= betted;
+
+        stop();
     }
+
+}
+
+function result(betted){
+    if (numberLock === vindertal){
+        betted *= 35;
+        currentUserData.balance += betted;
+    } else if (colorLock === vinderfarve){
+        betted *= 2;
+        currentUserData.balance += betted;
+    } 
+
+
+
+    vinderfarve = null;
+    vindertal = null;
+
+    console.log("Din saldo er nu:" + " " + currentUserData.balance);
 }
 
 function add5(){
