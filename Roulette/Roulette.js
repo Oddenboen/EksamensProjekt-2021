@@ -40,6 +40,9 @@ function add50(){
 function add100(){
     betMoneyInput += 100;    
 }
+function reset(){
+    betMoneyInput = 0;
+}
 
 function betBlack(){
     betMoney = betMoneyInput;
