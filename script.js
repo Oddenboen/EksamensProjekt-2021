@@ -2,13 +2,14 @@ var updateDb = function(dataArray, ref) {
     localStorage.setItem(ref, dataArray)
 }
 
+
 var getData = function(ref) {
     return JSON.parse(localStorage.getItem(ref))
 }
 
+
 var users = []
 var balances = []
-
 var currentUserData
 var balanceData
 
@@ -18,20 +19,43 @@ var updateBalance = function(newBalance, uid) {
    updateDb(JSON.stringify(balances), 'balances')  //stringify gør array til string og gør at computeren senere kan convertere det tilbage til array. Dette gøres da server ikke kan gemme læse JS, men godt kan læse string. Parse bruges senere til at lave string tilbage til array.
 }
 
-var setCookie = function(name, value, days) {
-    var d = new Date;
-    d.setTime(d.getTime() + 24*60*60*1000*days);
-    document.cookie = name + "=" + value + ";path=/;expires=" + d.toGMTString();
+
+var locationType = function() {
+    if( window.location.protocol == 'file:' ){ return 'local'; }
+    if( !window.location.host.replace( /localhost|127\.0\.0\.1/i, '' ) ){ return 'local'; }
+    return 'live';
 }
+
+
+var setCookie = function(name, value, days) {
+    if(locationType() == 'local') {
+        localStorage.setItem(name, value)
+    }else {
+        var d = new Date;
+        d.setTime(d.getTime() + 24*60*60*1000*days);
+        document.cookie = name + "=" + value + ";path=/;expires=" + d.toGMTString();
+    }
+}
+
 
 var getCookie = function(name) {
-    var v = document.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)');
-    return v ? v[2] : null;
+    if(locationType() == 'local') {
+        return Number(localStorage.getItem(name))
+    }else {
+        var v = document.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)');
+        return v ? v[2] : null;
+    }
 }
 
+
 var deleteCookie = function(name) { 
-    setCookie(name, '', -1); 
+    if(locationType() == 'local') {
+        localStorage.removeItem(name)
+    }else {
+        setCookie(name, '', -1); 
+    }
 }
+
 
 function attrExist(array, attr, value) {
     for(var i = 0; i < array.length; i += 1) {
@@ -71,7 +95,7 @@ var findUser = function(username, password) {
 
 
 var isUserLoggedIn = function() {
-    let loggedIn = getCookie('rotterikscasino_login')
+    let loggedIn = getCookie('casino_login')
 
     if(loggedIn) {
         currentUserData = getLoggedInInfo()
@@ -81,8 +105,15 @@ var isUserLoggedIn = function() {
         console.log(balanceData)
         console.log(balances)
 
+        
 
         if(currentUserData) {
+            $('.loggedin-box').addClass('active')
+            $('.logged_username').text(currentUserData.username)
+
+            $('.login_wrapper').hide()
+            $('.create_wrapper').hide()
+
             return 'Du er logget ind ' + currentUserData.username + ' Og du har: ' + balanceData.balance
         }
     }else {
@@ -91,13 +122,13 @@ var isUserLoggedIn = function() {
 }
 
 var getLoggedInInfo = function() {
-    let user = users[attrExist(users, 'id', Number(getCookie('rotterikscasino_login')))]
+    let user = users[attrExist(users, 'id', Number(getCookie('casino_login')))]
 
     return user
 }
 
 var getBalanceData = function() {
-    let balance = balances[attrExist(balances, 'uid', Number(getCookie('rotterikscasino_login')))]
+    let balance = balances[attrExist(balances, 'uid', Number(getCookie('casino_login')))]
 
     return balance
 }
@@ -168,7 +199,7 @@ $(function(){
         updateDb(JSON.stringify(users), 'users')
         updateDb(JSON.stringify(balances), 'balances')
 
-
+        alert('Din bruger med navnet "' + username + '" blev oprettet')
         return true
     }
 
@@ -180,16 +211,17 @@ $(function(){
             // User exists and has returned id
             // Log in
 
-            setCookie('rotterikscasino_login', user_id, 1)
+            setCookie('casino_login', user_id, 1)
             return true
         }else {
             // User didn't exist
+            alert('Brugeren eksisterer ikke. Prøv igen.')
             return false
         }
     }
 
     var logout = function() {
-        deleteCookie('rotterikscasino_login')
+        deleteCookie('casino_login')
     }
 })
 
@@ -473,7 +505,3 @@ function draw() {
     text("Saldo: " + balanceData.balance + " kr", 30, 100)
     text("Dit sats: " + betMoneyInput + " kr", 30, 50)
 }
-
-
-
-
